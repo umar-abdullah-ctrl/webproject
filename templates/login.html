@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Daily UI - Day 1 Sign In</title>
+
+	<!-- Google Fonts -->
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
+	<!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages() %}
+    {%  if messages %}
+        <div  >
+            <ul style="list-style: none;">
+                {% for message in messages %}
+                    <li style="color:red">{{message}}</li>
+                {%endfor %}
+            </ul>
+
+        </div>
+    {% endif %}
+    {%endwith%}
+    <form action="/login" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="container">
+            <div class="top">
+                <h1 id="title" class="hidden"><span id="logo">Login</span></h1>
+            </div>
+            <div class="login-box animated fadeInUp">
+                <div class="box-header">
+                    <h2>Log In</h2>
+                </div>
+                {{ form.email.label(for='name')}}
+                <br/>
+                {{ form.email(id=email,class="form-control")}}
+                <br/>
+                {{  form.password.label(for='password')}}                
+                <br/>
+                {{ form.password(id=password,class="form-control")}}
+                <br/>
+                <button type="submit">Sign In</button>
+                <br/>
+                <a href="/register"><p class="small">Not Registered</p></a>
+            </div>
+        </div>
+    </form>
+</body>
+
+<script>
+	$(document).ready(function () {
+    	$('#logo').addClass('animated fadeInDown');
+    	$("input:text:visible:first").focus();
+	});
+	$('#username').focus(function() {
+		$('label[for="username"]').addClass('selected');
+	});
+	$('#username').blur(function() {
+		$('label[for="username"]').removeClass('selected');
+	});
+	$('#password').focus(function() {
+		$('label[for="password"]').addClass('selected');
+	});
+	$('#password').blur(function() {
+		$('label[for="password"]').removeClass('selected');
+	});
+</script>
+
+</html>

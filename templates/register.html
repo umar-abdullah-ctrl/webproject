@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+
+</head>
+<body>
+    <div class="signup__container">
+        <div class="container__child signup__thumbnail">
+          <div class="thumbnail__content text-center">
+            <h1 class="heading--primary">Welcome to MI6.</h1>
+            <h2 class="heading--secondary">Are you ready to join the elite?</h2>
+          </div>
+
+          <div class="signup__overlay"></div>
+        </div>
+        <div class="container__child signup__form">
+          <form action="/register" method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+              {{ form.name.label(for="name") }}
+              {{ form.name(id=name,class="form-control")}}
+
+              {% if form.name.errors %}
+                <ul>
+                  {% for error in form.name.errors %}
+                    <li>
+                      {{error }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              {{ form.email.label(for="email") }}
+              {{ form.email(id=email,class="form-control")}}
+
+              {% if form.email.errors %}
+                <ul>
+                  {% for error in form.email.errors %}
+                    <li>
+                      {{error }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              {{ form.password.label(for="password") }}
+              {{ form.password(id=password,class="form-control",type='password')}}
+
+              {% if form.password.errors %}
+                <ul>
+                  {% for error in form.password.errors %}
+                    <li>
+                      {{error }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div class="m-t-lg" style="margin-top: 2rem;">
+              <ul class="list-inline">
+                <li>
+                  {{ form.submit(class="btn btn--form")}}
+                </li>
+                <li>
+                  <a class="signup__link" href="/login">I am already a member</a>
+                </li>
+              </ul>
+            </div>
+          </form>  
+        </div>
+      </div>
+</body>
+</html>
+
+

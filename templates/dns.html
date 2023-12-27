@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <!-- swiper css link  -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
+    />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles2.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+  </head>
+
+  <body>
+    <!-- header section starts  -->
+
+    <header class="header">
+
+      <nav class="navbar navbar-expand-lg" style="width: 100%;">
+         <div class="container-fluid" >
+   
+            <img src="{{ url_for('static', filename='images/cyber-security-removebg-preview.png') }}" alt="icon" width="50px" height="50px" >
+            <a href="#" class="logo">Cyber Security</a>
+           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+           </button>
+           <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+               <li class="nav-item">
+                 <a class="nav-link active" aria-current="page" href="/">Home</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/courses">Courses</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/news">News</a>
+                </li>
+   
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}">Contact</a>
+              </li>
+   
+               <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                   Info
+                 </a>
+                 <ul class="dropdown-menu">
+                   <li><a class="dropdown-item" href="/cybersecurity">Cyber Security</a></li>
+                   <li><a class="dropdown-item" href="/cyberattacks">Cyber Attacks</a></li>
+                   <li><a class="dropdown-item" href="/blogs">Blogs</a></li>
+                 </ul>
+               </li>
+   
+               <ul class="navbar-nav ms-auto" style="padding-left: 45rem;">
+                  {% if not login  %}
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="{{ url_for('login') }}">Login</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="{{ url_for('register') }}">SignUp</a>
+                  </li>
+                  {% endif %}
+                  {% if login  %}
+                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('dashboard') }}">Dashboard</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('logout') }}">Logout</a>
+                     </li>
+                  {% endif %}
+   
+              </ul>
+             </ul>
+           </div>
+         </div>
+      </nav>
+   
+      </header>
+
+    <!-- account form section starts  -->
+
+    <center>
+    <h1 style="font-size: 3rem;">DNS Spoofing</h1>
+    </center>
+    <section>
+        <h2>What is DNS Spoofing?</h2>
+        <p>
+          DNS spoofing, also known as DNS cache poisoning, is a cyber attack in which a malicious actor provides false DNS responses to redirect users to malicious websites or intercept their communications. DNS is a crucial internet service that translates human-readable domain names (e.g., example.com) into IP addresses (e.g., 192.168.1.1) to locate web servers.
+        </p>
+      </section>
+    
+      <section>
+        <h2>How DNS Spoofing Works</h2>
+        <ol>
+          <li>
+            <strong>Interception of Communication:</strong> When a user types a domain name into a browser, their computer sends a DNS query to a DNS resolver (e.g., ISP's DNS server) to obtain the corresponding IP address for that domain.
+          </li>
+          <li>
+            <strong>Malicious DNS Response:</strong> In a DNS spoofing attack, the attacker intercepts or fabricates a DNS response to the DNS resolver before the legitimate response is received. The malicious response provides a false IP address associated with the requested domain.
+          </li>
+          <li>
+            <strong>Cache Poisoning:</strong> If successful, the malicious DNS response is cached by the DNS resolver. Subsequent requests for the same domain will be redirected to the false IP address until the cached entry expires.
+          </li>
+          <li>
+            <strong>User Redirection:</strong> Users attempting to access the legitimate website are redirected to a malicious site controlled by the attacker. This can be a phishing site designed to steal credentials or a page laden with malware.
+          </li>
+        </ol>
+      </section>
+    
+      <section>
+        <h2>Objectives and Impact of DNS Spoofing</h2>
+        <ul>
+          <li>
+            <strong>Identity Theft:</strong> Attackers can steal personal information to commit identity theft, which may lead to financial fraud or other crimes.
+          </li>
+          <li>
+            <strong>Financial Losses:</strong> Victims may suffer financial losses due to unauthorized transactions or unauthorized access to their accounts.
+          </li>
+          <li>
+            <strong>Data Breach:</strong> Phishing attacks can lead to data breaches, exposing sensitive information of individuals or organizations.
+          </li>
+          <li>
+            <strong>Reputation Damage:</strong> Businesses may face reputational damage due to association with phishing attempts or data breaches.
+          </li>
+        </ul>
+      </section>
+    
+      <section>
+        <h2>Prevention and Mitigation of DNS Spoofing</h2>
+        <ul>
+          <li>
+            <strong>Encryption:</strong> Implement DNS Security Extensions (DNSSEC) to provide authentication and integrity checks for DNS responses, ensuring they are legitimate and unaltered.
+          </li>
+          <li>
+            <strong>HTTPS Encryption:</strong> Employ HTTPS to encrypt data transmitted between the user's browser and the web server, preventing eavesdropping and man-in-the-middle attacks.
+          </li>
+          <li>
+            <strong>Regular DNS Cache Purging:</strong> Regularly clear the DNS cache on DNS resolvers to minimize the impact of potential cache poisoning.
+          </li>
+          <li>
+            <strong>Firewalls and Intrusion Detection Systems (IDS):</strong> Employ these security measures to detect and block malicious traffic, including suspicious DNS responses.
+          </li>
+        </ul>
+      </section>
+
+
+      <section class="footer">
+
+        <div class="box-container">
+  
+           <div class="box">
+              <h3> Cyber Attacks </h3>
+              <div class="share">
+                 <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                 <a href="https://twitter.com/" class="fab fa-twitter"></a>
+                 <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                 <a href="https://pk.linkedin.com/" class="fab fa-linkedin"></a>
+              </div>
+           </div>
+  
+           <div class="box">
+              <h3>quick links</h3>
+              <a class="link" href="/">Home</a>
+              <a class="link" href="">All Attacks</a>
+              <a class="link" href="/contact">Contact</a>
+           </div>
+        </div>
+  
+        <div class="credit"> created by <span>Umar Abdullah</span> </div>
+  
+     </section>
+
+    <!-- swiper js link  -->
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+    <!-- custom js file link  -->
+    <script src="js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>courses</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+   <!-- swiper css link  -->
+   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+</head>
+
+<body>
+
+   <header class="header">
+
+      <nav class="navbar navbar-expand-lg" style="width: 100%;">
+         <div class="container-fluid" >
+   
+            <img src="{{ url_for('static', filename='images/cyber-security-removebg-preview.png') }}" alt="icon" width="50px" height="50px" >
+            <a href="#" class="logo">Cyber Security</a>
+           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+           </button>
+           <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+               <li class="nav-item">
+                 <a class="nav-link active" aria-current="page" href="/">Home</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/courses">Courses</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/news">News</a>
+                </li>
+   
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}">Contact</a>
+              </li>
+   
+               <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                   Info
+                 </a>
+                 <ul class="dropdown-menu">
+                   <li><a class="dropdown-item" href="/cybersecurity">Cyber Security</a></li>
+                   <li><a class="dropdown-item" href="/cyberattacks">Cyber Attacks</a></li>
+                   <li><a class="dropdown-item" href="/blogs">Blogs</a></li>
+                 </ul>
+               </li>
+   
+               <ul class="navbar-nav ms-auto" style="padding-left: 45rem;">
+                  {% if not login  %}
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="{{ url_for('login') }}">Login</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="{{ url_for('register') }}">SignUp</a>
+                  </li>
+                  {% endif %}
+                  {% if login  %}
+                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('dashboard') }}">Dashboard</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('logout') }}">Logout</a>
+                     </li>
+                  {% endif %}
+   
+              </ul>
+             </ul>
+           </div>
+         </div>
+      </nav>
+   
+      </header>
+
+     
+
+   <!-- account form section ends -->
+
+   <!-- header section ends -->
+
+   <section class="home">
+      <div class="swiper-wrapper">
+
+         <section class="swiper-slide slide" style="background: url({{ url_for('static', filename='images/mainbackgoundimage.jpg') }});">
+            <div class="content">
+               <h3>CYBER ATTACKS</h3>
+               <p style="font-size: 2rem; font-weight: 30px;">Cyber attacks are stealthy threats targeting computers and information, aiming for unauthorized access or disruption. They take forms like malware or phishing, acting as digital intruders in the virtual space.</p>
+               <p style="font-size: 2rem; font-weight: 30px;">Defending against these threats, cybersecurity employs tools such as firewalls. Understanding cyber attack tactics is vital for individuals and organizations to stay secure in the dynamic online landscape.</p>
+            </div>
+         </section>
+         
+      </div>
+   </section>
+
+   <section class="courses">
+
+      <h1 class="heading"> Some More Attacks </h1>
+
+      <div class="box-container">
+
+         <div class="box">
+            <div class="image">
+               <img src="../static/images/trojan.jpeg" alt="">
+               <h3>Trojan Horses</h3>
+            </div>
+            <div class="content" style="height: 40rem;">
+               <h3>Trojan Horses</h3>
+               <p>A Trojan horse, often referred to as a "Trojan," is a type of malicious software (malware) disguised as a legitimate or desirable software or file. The name "Trojan horse" comes from Greek mythology, where the Greeks used a deceptive wooden horse to infiltrate the city of Troy, illustrating the deceptive nature of this type of malware.</p>
+               <a href="/details?html=trojan" class="btn">read more</a>
+               <p></p>
+               <p></p>
+               <p></p>
+            </div>
+         </div>
+
+         <div class="box">
+            <div class="image">
+               <img src="../static/images/dns.jpeg" alt="">
+               <h3>Session Hijacking</h3>
+            </div>
+            <div class="content" style="height: 40rem;">
+               <h3>Session Hijacking</h3>
+               <p>Session hijacking, also known as session stealing or session fixation, is a type of cyber attack where an unauthorized individual intercepts or takes over an established user's session in an online application or website. The attacker gains access to the victim's session credentials, such as session tokens or session IDs, allowing them to impersonate the user and perform actions on their behalf.</p>
+               <a href="/details?html=session" class="btn">read more</a>
+
+            </div>
+         </div>
+
+         <div class="box">
+            <div class="image">
+               <img src="../static/images/dns spoofing.jpg.crdownload" alt="">
+               <h3>DNS Spoofing</h3>
+            </div>
+            <div class="content" style="height: 40rem;">
+               <h3>DNS Spoofing</h3>
+               <p>DNS (Domain Name System) spoofing, also known as DNS cache poisoning, is a cyber attack in which a malicious actor provides false DNS responses to redirect users to malicious websites or intercept their communications. DNS is a crucial internet service that translates human-readable domain names (e.g., example.com) into IP addresses (e.g., 192.168.1.1) to locate web servers.</p>
+               <a href="/details?html=dns" class="btn">read more</a>
+            </div>
+         </div>
+
+
+         <div class="box hide">
+            <div class="image">
+               <img src="../static/images/url.jpeg"alt="">
+               <h3>URL Interpretation</h3>
+            </div>
+            <div class="content" style="height: 40rem;">
+               <h3>URL Interpretation</h3>
+               <p>URL (Uniform Resource Locator) interpretation refers to the process of understanding and dissecting a URL to extract meaningful information about a web resource's location, protocol, host, path, query parameters, and other components. URLs are used to identify and locate web resources on the internet, and they are made up of several parts, each serving a specific purpose.</p>
+               <a href="/details?html=url" class="btn">read more</a>
+            </div>
+         </div>
+
+         <div class="box hide">
+            <div class="image">
+               <img src="../static/images/mtm.jpeg" alt="">
+               <h3>MITM Attacks</h3>
+            </div>
+            <div class="content" style="height: 40rem;">
+               <h3>MITM Attacks</h3>
+               <p>A Man-in-the-Middle (MitM) attack is a type of cyber attack where an attacker intercepts and potentially alters the communication between two parties without their knowledge. The attacker positions themselves between the communicating parties, allowing them to eavesdrop on, manipulate, or inject malicious content into the exchanged data.</p>
+               <p></p>
+               <a href="/details?html=mitm" class="btn">read more</a>
+               
+            </div>
+         </div>
+
+
+      </div>
+
+      <div class="load-more">
+         <div class="btn" onclick="clicked()">load more</div>
+      </div>
+
+   </section>
+   <section class="footer">
+
+      <div class="box-container">
+
+         <div class="box">
+            <h3> Cyber Attacks </h3>
+            <div class="share">
+               <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+               <a href="https://twitter.com/" class="fab fa-twitter"></a>
+               <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+               <a href="https://pk.linkedin.com/" class="fab fa-linkedin"></a>
+            </div>
+         </div>
+
+         <div class="box">
+            <h3>quick links</h3>
+            <a class="link" href="/">Home</a>
+            <a class="link" href="">All Attacks</a>
+            <a class="link" href="/contact">Contact</a>
+         </div>
+      </div>
+
+      <div class="credit"> created by <span>Umar Abdullah</span> </div>
+
+   </section>
+   <script>
+            function clicked(){
+         document.querySelectorAll(".courses .box-container .hide").forEach((show) => {
+         show.style.display = "block";
+      });
+      document.querySelector(".load-more .btn").style.display = "none";
+      }
+   </script>
+
+
+
+
+
+
+   <!-- swiper js link  -->
+   <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+   <!-- custom js file link  -->
+   <script src="js/script.js"></script>
+
+</body>
+
+</html>

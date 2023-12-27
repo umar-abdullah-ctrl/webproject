@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+
+    <!-- swiper css link  -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
+    />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles2.css') }}">
+  </head>
+
+  <body>
+    <!-- header section starts  -->
+    <header class="header">
+
+      <nav class="navbar navbar-expand-lg" style="width: 100%;">
+         <div class="container-fluid" >
+   
+            <img src="{{ url_for('static', filename='images/cyber-security-removebg-preview.png') }}" alt="icon" width="50px" height="50px" >
+            <a href="#" class="logo">Cyber Security</a>
+           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+           </button>
+           <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+               <li class="nav-item">
+                 <a class="nav-link active" aria-current="page" href="/">Home</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/courses">Courses</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/news">News</a>
+                </li>
+   
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}">Contact</a>
+              </li>
+   
+               <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                   Info
+                 </a>
+                 <ul class="dropdown-menu">
+                   <li><a class="dropdown-item" href="/cybersecurity">Cyber Security</a></li>
+                   <li><a class="dropdown-item" href="/cyberattacks">Cyber Attacks</a></li>
+                   <li><a class="dropdown-item" href="/blogs">Blogs</a></li>
+                 </ul>
+               </li>
+   
+               <ul class="navbar-nav ms-auto" style="padding-left: 45rem;">
+                  {% if not login  %}
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="{{ url_for('login') }}">Login</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="{{ url_for('register') }}">SignUp</a>
+                  </li>
+                  {% endif %}
+                  {% if login  %}
+                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('dashboard') }}">Dashboard</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('logout') }}">Logout</a>
+                     </li>
+                  {% endif %}
+   
+              </ul>
+             </ul>
+           </div>
+         </div>
+      </nav>
+   
+      </header>
+
+    <center>
+    <h1 style="font-size: 3rem;">URL Interpretation?</h1>
+    </center>
+    <section>
+        <h2>What is URL Interpretation?</h2>
+        <p>
+          URL (Uniform Resource Locator) interpretation refers to the process of understanding and dissecting a URL to extract meaningful information about a web resource's location, protocol, host, path, query parameters, and other components. URLs are used to identify and locate web resources on the internet, and they are made up of several parts, each serving a specific purpose.
+        </p>
+      </section>
+    
+      <section>
+        <h2>Key Components of a URL</h2>
+        <ul>
+          <li>
+            <strong>Scheme/Protocol:</strong> Specifies how the web resource should be accessed (e.g., "http," "https," "ftp").
+          </li>
+          <li>
+            <strong>Host:</strong> Represents the domain name or IP address of the server where the web resource is hosted.
+          </li>
+          <li>
+            <strong>Port (Optional):</strong> Indicates the specific port on the host where the web server is listening for incoming requests.
+          </li>
+          <li>
+            <strong>Path:</strong> Represents the specific location or file on the web server.
+          </li>
+          <li>
+            <strong>Query Parameters (Optional):</strong> Used to pass data to the web resource, typically in the form of key-value pairs.
+          </li>
+          <li>
+            <strong>Fragment Identifier/Anchor (Optional):</strong> Identifies a specific section within a web page.
+          </li>
+        </ul>
+      </section>
+    
+      <section>
+        <h2>How URL Interpretation Works</h2>
+        <p>
+          Understanding and correctly interpreting the components of a URL is essential for accessing web resources, navigating websites, and constructing links or web addresses effectively.
+        </p>
+      </section>
+    
+      <section>
+        <h2>Importance of URL Interpretation</h2>
+        <p>
+          Proper URL interpretation is crucial for web developers, cybersecurity professionals, and general internet users to ensure secure and efficient access to web resources. It enables users to accurately identify the location of a web resource and helps in constructing safe and functional URLs.
+        </p>
+      </section>
+    
+
+
+      <section class="footer">
+
+        <div class="box-container">
+  
+           <div class="box">
+              <h3> Cyber Attacks </h3>
+              <div class="share">
+                 <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                 <a href="https://twitter.com/" class="fab fa-twitter"></a>
+                 <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                 <a href="https://pk.linkedin.com/" class="fab fa-linkedin"></a>
+              </div>
+           </div>
+  
+           <div class="box">
+              <h3>quick links</h3>
+              <a class="link" href="/">Home</a>
+              <a class="link" href="">All Attacks</a>
+              <a class="link" href="/contact">Contact</a>
+           </div>
+        </div>
+  
+        <div class="credit"> created by <span>Umar Abdullah</span> </div>
+  
+     </section>
+  
+
+    <!-- swiper js link  -->
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+    <!-- custom js file link  -->
+    <script src="js/script.js"></script>
+  </body>
+</html>
