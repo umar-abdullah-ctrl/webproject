@@ -74,6 +74,12 @@
               </ul>
             </li>
 
+            {% if admin%}
+            <li class="nav-item">
+               <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
+            </li>
+            {% endif %}
+
             <ul class="navbar-nav ms-auto" style="padding-left: 45rem;">
                {% if not login  %}
                <li class="nav-item">
@@ -85,7 +91,7 @@
                {% endif %}
                {% if login  %}
                   <li class="nav-item">
-                     <a class="nav-link active" aria-current="page" href="{{ url_for('dashboard') }}">Dashboard</a>
+                     <a class="nav-link active" aria-current="page" href="/dashboard/{{user_id}}">Dashboard</a>
                   </li>
                   <li class="nav-item">
                      <a class="nav-link active" aria-current="page" href="{{ url_for('logout') }}">Logout</a>

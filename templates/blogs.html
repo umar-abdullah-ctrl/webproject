@@ -26,7 +26,7 @@
                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                    <span class="navbar-toggler-icon"></span>
                  </button>
-                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                 <div class="collapse navbar-collapse" id="navbarSupportedContent" >
                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                      <li class="nav-item">
                        <a class="nav-link active" aria-current="page" href="/">Home</a>
@@ -64,7 +64,7 @@
                         {% endif %}
                         {% if login  %}
                            <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="{{ url_for('dashboard') }}">Dashboard</a>
+                              <a class="nav-link active" aria-current="page" href="/dashboard/{{user_id}}">Dashboard</a>
                            </li>
                            <li class="nav-item">
                               <a class="nav-link active" aria-current="page" href="{{ url_for('logout') }}">Logout</a>
@@ -78,6 +78,7 @@
             </nav>
          
             </header>
+         
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
@@ -86,7 +87,10 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link" href="/blogs">All Posts</a></li>
                         <li class="nav-item"><a class="nav-link" href="/createblogs">Create Post</a></li>
+                        {%if login%}
                         <li class="nav-item"><a class="nav-link" href="/myposts/{{user_id}}">My Posts</a></li>
+                        {%endif%}
+
                     </ul>
                 </div>
             </div>

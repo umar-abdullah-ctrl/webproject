@@ -2,11 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashBoard</title>
+    <title>Dashboard</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
+    <h1>Welcome to the Dashboard</h1>
+
+    {% if video_details_list %}
+        <h2>Your Videos</h2>
+        <ul>
+            {% for video in video_details_list %}
+                <li>
+                    <strong>{{ video['video_title'] }}</strong><br>
+                    Video ID: {{ video['video_details']['videoId'] }}<br>
+                    <!-- Embed YouTube video -->
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video['video_details']['videoId'] }}" frameborder="0" allowfullscreen></iframe>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No videos found.</p>
+    {% endif %}
+
+    <!-- Add more content or features as needed -->
+
+    <a href="/logout">Logout</a>
 </body>
 </html>

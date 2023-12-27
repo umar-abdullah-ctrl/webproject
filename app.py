@@ -10,6 +10,8 @@ from flask_mail import Mail
 import os 
 from werkzeug.utils import secure_filename
 import googleapiclient.discovery
+from googleapiclient.discovery import build
+
 import math
 
 
@@ -33,8 +35,13 @@ app.config['MYSQL_PASSWORD'] = '@123'
 app.config['MYSQL_DB'] = 'web_project'
 app.secret_key = 'secret_key'
 
+charset="utf8mb4",  # Set the character set
+use_unicode=True
+
 mysql = MySQL(app)
 
+id = 0
+title = "" 
 
 class RegisterForm(FlaskForm):
     name = StringField("Name",validators=[DataRequired()])
@@ -49,8 +56,11 @@ class LoginForm(FlaskForm):
 
 @app.route('/')
 def home():
-    return render_template("index.html",login = session["isloggedin"])
-    
+    if session['isloggedin']:
+        return render_template("index.html",login = session["isloggedin"],user_id = session['user_id'],admin=session['isadmin'])
+    else :
+        return render_template("index.html",login = session["isloggedin"])
+
 @app.route('/index')
 def index():
     login = session['isloggedin']
@@ -62,7 +72,7 @@ def index():
         user = cursor.fetchone()
         cursor.close()
         if user :
-            return render_template('index.html',user=user,login=login)
+            return render_template('index.html',user=user,login=login,user_id = session['user_id'],admin=session['isadmin'])
     else:
         return render_template('index.html',user=None,login=login)
 
@@ -79,6 +89,12 @@ def login():
         if user and bcrypt.checkpw(password.encode('utf-8'),user[3].encode('utf-8')):
             session['user_id'] = user[0]
             session['isloggedin'] = True
+            if int(user[0])  == 3 :
+                session['isadmin'] = True
+            else :
+                session['isadmin'] = False 
+                
+
             return redirect(url_for('index'))
         else:
             flash("Login Failed Check your Email and Password")
@@ -123,11 +139,33 @@ def logout():
     session['isloggedin'] = False 
     return redirect(url_for('index'))
 
-@app.route('/dashboard')
-def dashboard():
+@app.route('/dashboard/<int:user_id>')
+def dashboard(user_id):
     if session['isloggedin'] : 
 
-        return render_template('dashboard.html')
+ # Fetch distinct video details from the database
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT DISTINCT video_title, video_id FROM courses WHERE user_id = %s", (user_id,))
+        results = cursor.fetchall()
+        cursor.close()
+
+        video_details_list = []
+
+        # Call the YouTube API to get additional details for each video
+        youtube = build('youtube', 'v3', developerKey=API_KEY)
+        for result in results:
+            video_title, video_id = result
+
+            video_response = youtube.videos().list(
+                part='snippet',
+                id=video_id
+            ).execute()
+
+            video_details = video_response['items'][0]['snippet']
+            video_details_list.append({'video_title': video_title, 'video_details': video_details})
+
+        # Render the template with video details
+        return render_template('dashboard.html', user_id=user_id, video_details_list=video_details_list)
     else:
         return "Not Logged In"
 
@@ -181,7 +219,10 @@ def blogs():
         prev = "?page="+ str(page-1)
         next = "?page="+ str(page+1)
 
-    return render_template('blogs.html', blogs=blogs, user_id = session['user_id'] , prev=prev, next=next,page=page,login = session["isloggedin"])
+    if session['isloggedin']:
+        return render_template('blogs.html', blogs=blogs, user_id = session['user_id'] , prev=prev, next=next,page=page,login = session["isloggedin"])
+    else :
+        return render_template('blogs.html', blogs=blogs, prev=prev, next=next,page=page,login = session["isloggedin"])
 
 
 @app.route('/createblogs',methods=['GET','POST'])
@@ -266,16 +307,28 @@ def delete(sno):
     
 @app.route('/courses')
 def courses():
+    
+    video_id = request.args.get('video_id')
+    video_title = request.args.get('video_title')
+    if video_id:
+        cursor = mysql.connection.cursor()
+
+        # Insert values into the courses table
+        cursor.execute("INSERT INTO courses (user_id, video_id, video_title) VALUES (%s, %s, %s)",
+                    (session['user_id'], video_id, video_title))
+
+        # Commit the transaction
+        mysql.connection.commit()
+
+        # Close the cursor
+        cursor.close()
     if not session['isloggedin']:
         return render_template('notloggedin.html')
     else:
-
         youtube = googleapiclient.discovery.build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=API_KEY)
 
         query = "cybersecurity courses"
         max_results = 100
-
-        youtube = googleapiclient.discovery.build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=API_KEY)
 
         search_response = youtube.search().list(
             q=query,
@@ -285,36 +338,52 @@ def courses():
         ).execute()
 
         videos = []
+
         for search_result in search_response.get("items", []):
             video_id = search_result["id"]["videoId"]
             video_title = search_result["snippet"]["title"]
             videos.append({"title": video_title, "video_id": video_id})
-        
-        last = math.floor(len(videos) / 16)
+            # video_id = str(video_id)
+            # video_title = str(video_title)
+            # cursor = mysql.connection.cursor()
+            # cursor.execute("INSERT INTO videos (video_title, video_id) VALUES (%s, %s)", (video_title, video_id))
+            # mysql.connection.commit()
+            # cursor.close()
 
+        videos_per_page = 16  # Assuming you want to display 16 videos per page
 
         page = request.args.get('page')
-        if (not str(page).isnumeric()):
+        if not str(page).isnumeric():
             page = 1
         page = int(page)
-        videos = videos[(page)*16:(page-16)*int(16)+ int(16)]
-        if page==1:
-            prev = "#"
-            next = "?page="+ str(page+1)
-        elif page==last:
-            prev = "?page="+ str(page-1)
-            next = "?page="+str(page)
-        else:
-            prev = "?page="+ str(page-1)
-            next = "?page="+ str(page+1)
-        print(videos)
-        return render_template('youtubecourses.html', videos=videos , next= next ,prev = prev ,user_id=session["user_id"])
 
+        start_index = (page - 1) * videos_per_page
+        end_index = start_index + videos_per_page
+
+        videos_to_display = videos[start_index:end_index]
+
+        last = math.ceil(len(videos) / videos_per_page)
+
+        if page == 1:
+            prev = "#"
+            next = "?page=" + str(page + 1)
+        elif page == last:
+            prev = "?page=" + str(page - 1)
+            next = "?page=" + str(page)
+        else:
+            prev = "?page=" + str(page - 1)
+            next = "?page=" + str(page + 1)
+
+        return render_template('youtubecourses.html', videos=videos_to_display, next=next, prev=prev, user_id=session["user_id"])
 @app.route('/details')
 def details():
     html = request.args.get('html')
     html = html+".html"
     return render_template(html)
+
+@app.route('/admin')
+def admin():
+    return render_template("admin.html")
 if __name__ == '__main__':
     app.run(debug=True)
 

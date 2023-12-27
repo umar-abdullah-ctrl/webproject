@@ -29,7 +29,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ video.title }}</h5>
                 </div>
-                <a href="/courses?{{user_id}}" class="btn btn-primary">Add Course</a>
+                <a href="/courses?video_id={{ video.video_id }}&video_title={{ video.title }}" class="btn btn-primary">Add Course</a>
 
             </div>
         {% endfor %}
