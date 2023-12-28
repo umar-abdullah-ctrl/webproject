@@ -127,16 +127,25 @@ def register():
 
 @app.route('/cybersecurity')
 def cybersecurity():
-    return render_template('cybersecurity.html',login = session["isloggedin"])
+    if session['isloggedin']:
+        return render_template('cybersecurity.html',login = session["isloggedin"],admin = session['isadmin'],user_id = session['user_id'])
+
+    else :
+        return render_template('cybersecurity.html',login = session["isloggedin"],admin = session['isadmin'])
 
 @app.route('/cyberattacks')
 def cyberattacks():
-    return render_template('courses.html',login = session["isloggedin"])
+    if session['isloggedin']:
+        return render_template('courses.html',login = session["isloggedin"],admin = session['isadmin'],user_id = session['user_id'])
+    else :
+        return render_template('courses.html',login = session["isloggedin"],admin = session['isadmin'])
+
 
 @app.route('/logout')
 def logout():
     session.pop('user_id',None)
     session['isloggedin'] = False 
+    session['isadmin'] = False 
     return redirect(url_for('index'))
 
 @app.route('/dashboard/<int:user_id>')
@@ -171,6 +180,11 @@ def dashboard(user_id):
 
 @app.route('/news')
 def news():
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("select * from news")
+    results = cursor.fetchall()
+    print(results)
     # Init
     # newsapi = NewsApiClient(api_key='a8fe163509d64ebabe3704f6980cf0cd')
 
@@ -193,7 +207,7 @@ def news():
     # sources = newsapi.get_sources()
 
 
-    return render_template('news.html')
+    return render_template('news.html',results = results,login = session['isloggedin'] , admin = session['isadmin'])
 
 
 @app.route('/blogs')
@@ -220,7 +234,7 @@ def blogs():
         next = "?page="+ str(page+1)
 
     if session['isloggedin']:
-        return render_template('blogs.html', blogs=blogs, user_id = session['user_id'] , prev=prev, next=next,page=page,login = session["isloggedin"])
+        return render_template('blogs.html', blogs=blogs, user_id = session['user_id'] , prev=prev, next=next,page=page,login = session["isloggedin"],admin = session['isadmin'])
     else :
         return render_template('blogs.html', blogs=blogs, prev=prev, next=next,page=page,login = session["isloggedin"])
 
@@ -264,13 +278,16 @@ def posts(post_id):
     cursor.execute("select name from users where id = %s ",[id])
     username = cursor.fetchone()
     name = username[0]
-
-    return render_template('post.html',post=post,name = name )
+    print(post)
+    if session['isloggedin']:
+        return render_template('post.html',post=post,name = name ,login = session['isloggedin'],admin = session['isadmin'],user_id = session['user_id'])
+    else :
+        return render_template('post.html',post=post,name = name ,login = session['isloggedin'],admin = session['isadmin'])
 
 @app.route('/contact',methods=["GET","POST"])
 def contact():
-    if not session['isloggedin']:
-        return render_template('notloggedin.html')
+    # if not session['isloggedin']:
+    #     return render_template('notloggedin.html')
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
@@ -284,7 +301,7 @@ def contact():
         cursor.close()
         return render_template("contact.html")
     else :
-        return render_template("contact.html",login = session["isloggedin"])
+        return render_template("contact.html",login = session["isloggedin"],admin = session['isadmin'])
 
 @app.route('/myposts/<int:user_id>')
 def my_posts(user_id):
@@ -294,7 +311,7 @@ def my_posts(user_id):
         cursor = mysql.connection.cursor()
         cursor.execute("Select * from posts where user_id = %s",[user_id])
         posts = cursor.fetchall()
-        return render_template('myposts.html',posts = posts,login = session["isloggedin"])
+        return render_template('myposts.html',posts = posts,login = session["isloggedin"],admin = session['isadmin'],user_id=session['user_id'])
 
 @app.route('/delete/<int:sno>')
 def delete(sno):
@@ -384,6 +401,42 @@ def details():
 @app.route('/admin')
 def admin():
     return render_template("admin.html")
+
+@app.route('/addnews',methods = ['GET','POST'])
+def addnews():
+    if request.method == 'POST':
+        title = request.form.get("title")
+        link = request.form.get("link")
+        cursor = mysql.connection.cursor()
+        f = request.files['file']
+
+        upload_folder = 'static/images/news'
+        f.save(os.path.join(upload_folder, secure_filename(f.filename)))
+        cursor.execute("INSERT INTO  news (title, link,img_file) VALUES (%s, %s, %s)", (title,link,f.filename))
+
+        mysql.connection.commit()  # Corrected line to commit changes
+        cursor.close()
+        return redirect("/addnews")
+    return render_template("addnews.html",admin = session['isadmin'],login = session['isloggedin'])
+
+@app.route('/deletenews',methods=['POST','GET'])
+def deletenews():
+    cursor = mysql.connection.cursor()
+    cursor.execute("select * from news")
+    results = cursor.fetchall()
+
+    return render_template('deletenews.html',results=results)
+
+
+
+@app.route('/newsdelete/<int:id>')
+def newsdelete(id):
+    print(id)
+    cursor = mysql.connection.cursor()
+    cursor.execute("delete from news where id = %s",[id])
+    mysql.connection.commit()
+    return redirect('/deletenews')
+
 if __name__ == '__main__':
     app.run(debug=True)
 

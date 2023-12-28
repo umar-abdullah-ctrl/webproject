@@ -61,6 +61,12 @@
                  </ul>
                </li>
    
+               {% if admin%}
+               <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
+               </li>
+               {% endif %}
+   
                <ul class="navbar-nav ms-auto" style="padding-left: 45rem;">
                   {% if not login  %}
                   <li class="nav-item">
@@ -87,47 +93,18 @@
    
       </header>
    
+   
 
    <!-- account form section starts  -->
 
-   <div class="account-form">
-
-      <div id="close-form" class="fas fa-times"></div>
-
-      <div class="buttons">
-         <span class="btn active login-btn">login</span>
-         <span class="btn register-btn">register</span>
-      </div>
-
-      <form class="login-form active" action="">
-         <h3>login now</h3>
-         <input type="email" placeholder="enter your email" class="box">
-         <input type="password" placeholder="enter your password" class="box">
-         <div class="flex">
-            <input type="checkbox" name="" id="remember-me">
-            <label for="remember-me">remember me</label>
-            <a href="#">forgot password?</a>
-         </div>
-         <input type="submit" value="login now" class="btn">
-      </form>
-
-      <form class="register-form" action="">
-         <h3>register now</h3>
-         <input type="email" placeholder="enter your email" class="box">
-         <input type="password" placeholder="enter your password" class="box">
-         <input type="password" placeholder="confirm your password" class="box">
-         <input type="submit" value="register now" class="btn">
-      </form>
-
-   </div>
-
+   
    <!-- account form section ends -->
 
    <!-- header section ends -->
 
    <section class="heading-link">
       <h3>contact us</h3>
-      <p> <a href="home.html">home</a> / contact </p>
+      <p> <a href="/">home</a> / contact </p>
    </section>
 
    <!-- contact section starts  -->
